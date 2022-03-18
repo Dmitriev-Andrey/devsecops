@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>SAST</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<table border="1px" width="500px">
+    <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Time</th>
+    </tr>
+    <tr th:each="scan: ${allScanning}">
+        <td><a th:text="${scan.name}" th:href="@{/scanning/{id}(id=${scan.id})}"/></td>
+        <td th:text="${scan.status}"/>
+    </tr>
+</table>
+</body>
+</html>
