@@ -5,10 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<form action="/scan_code" method="get">
+<form action="/scanJar" method="post" enctype="multipart/form-data">
     <label>
-        Enter github link on Java code:<input name="githubLink" type="text"/>
-    </label>
+        Enter github link on Java code:<input name="file" type="file" />
+    </label><br>
     <input type="submit"/>
 </form>
 

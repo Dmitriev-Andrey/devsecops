@@ -1,6 +1,8 @@
 package com.dmitriev.andrey.devsecops.db.repos;
 
 import java.sql.PreparedStatement;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +22,7 @@ public class ScanningRepo {
     }
 
     public void createNewScan(String name, Status status) {
-        jdbcTemplate.execute("INSERT INTO scanning (name, status) VALUES (:name, :status)",
+        jdbcTemplate.execute("INSERT INTO scanning (name, status, scan_time) VALUES (:name, :status, CURRENT_TIMESTAMP)",
                 Map.of("name", name,
                         "status", status.name()),
                 PreparedStatement::executeUpdate);
@@ -36,13 +38,13 @@ public class ScanningRepo {
 
     public List<Scanning> getAllScan() {
         List<Scanning> result = new ArrayList<>();
-        jdbcTemplate.query("SELECT id, name, status FROM scanning",
+        jdbcTemplate.query("SELECT id, name, status, scan_time time FROM scanning",
                 rs -> {
                     result.add(new Scanning(
                             rs.getLong("id"),
                             rs.getString("name"),
-                            Status.valueOf(rs.getString("status"))
-                    ));
+                            Status.valueOf(rs.getString("status")),
+                            rs.getTimestamp("scan_time").toLocalDateTime()));
                 });
         return result;
     }

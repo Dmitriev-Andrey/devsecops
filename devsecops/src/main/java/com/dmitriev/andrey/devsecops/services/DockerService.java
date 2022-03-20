@@ -2,9 +2,7 @@ package com.dmitriev.andrey.devsecops.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -13,22 +11,23 @@ public class DockerService {
 
     private static final String CURR_DIR = System.getProperty("user.dir");
 
-    public void runScanning(String dir) throws IOException, InterruptedException {
+    public void scanFile(String fileName) throws IOException, InterruptedException {
 
         final String[] cmd = {
                 "docker", "run", "--rm",
-                "--name", dir,
-                "-v", CURR_DIR + "/" + dir + "/:/scanning_files:ro",
+                "--name", fileName,
+                "-v", CURR_DIR + "/input/:/scanning_files:ro",
                 "-v", CURR_DIR + "/output/:/output",
                 "sast",
-                "bash", "sast/findsecbugs.sh", "-progress", "-html", "-output", "/output/" + dir + ".html",
-                "scanning_files/"
+                "bash", "sast/findsecbugs.sh", "-high", "-progress", "-html", "-output", "/output/" + fileName + ".html",
+                "scanning_files/" + fileName
         };
 
         ProcessBuilder procBuilder = new ProcessBuilder(cmd);
-        procBuilder.redirectErrorStream(true);
+        procBuilder.inheritIO();
+//        procBuilder.redirectErrorStream(true);
         Process process = procBuilder.start();
-        //todo: use async approach
-        process.waitFor();
+
+        final int i = process.waitFor();
     }
 }

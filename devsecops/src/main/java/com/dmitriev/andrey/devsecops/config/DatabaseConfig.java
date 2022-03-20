@@ -1,4 +1,4 @@
-package com.dmitriev.andrey.devsecops;
+package com.dmitriev.andrey.devsecops.config;
 
 import javax.sql.DataSource;
 

@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+<a href="/">New scanning</a>
 <table border="1px" width="500px">
     <tr>
         <th>Name</th>
@@ -14,6 +15,7 @@
     <tr th:each="scan: ${allScanning}">
         <td><a th:text="${scan.name}" th:href="@{/scanning/{id}(id=${scan.id})}"/></td>
         <td th:text="${scan.status}"/>
+        <td th:text="${scan.scanTime}">
     </tr>
 </table>
 </body>
